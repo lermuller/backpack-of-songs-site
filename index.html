@@ -9,9 +9,16 @@
 <meta property="og:description" content="Discover songs that made memories, all around the world.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://backpackofsongs.com/">
-<meta property="og:image" content="https://backpackofsongs.com/hero-scene.jpg">
+<meta property="og:image" content="https://backpackofsongs.com/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A pixel-art traveller with a red backpack looking out over a city at sunset, beside the line: leave the song where you heard it.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#221512">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -174,6 +181,19 @@ p,figure,figcaption,ul,li{margin:0}
 .btn.alt{background:transparent;border-color:var(--accent);color:var(--accent)}
 .btn:hover{filter:brightness(1.08)}
 
+/* Until the listings exist the download buttons lead nowhere, so the account
+   takes the lead and they step back. Filling STORE in the script below undoes
+   all of this at once — see body.prelaunch. */
+.cta-follow{display:none;margin-top:30px}
+.prelaunch .cta-follow{display:block}
+.cta-follow .btn{min-width:296px;align-items:center;justify-content:center}
+.prelaunch .hero .stores{margin-top:14px}
+.prelaunch .hero .stores .btn{background:transparent;border-color:var(--saved-b);color:var(--dim)}
+.prelaunch .hero .stores .btn:hover{border-color:var(--accent);color:var(--accent);filter:none}
+.banner .follow{display:none}
+.prelaunch .banner .follow{display:inline-flex}
+.prelaunch .banner [data-store]{display:none}
+
 /* ---------- panels --------------------------------------------------------- */
 .sec{position:relative;z-index:1;margin-bottom:22px}
 .panel{background:var(--panel);border:1px solid var(--panel-b);padding:40px}
@@ -245,6 +265,15 @@ p,figure,figcaption,ul,li{margin:0}
 .banner h2{font-size:clamp(23px,2vw,29px);font-weight:700;color:var(--white);line-height:1.18;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .banner .stores{justify-content:flex-start;margin:0}
 .banner .btn.alt{background:rgba(21,12,9,.82)}
+
+/* ---------- the story ------------------------------------------------------ */
+.story-in{display:grid;grid-template-columns:31% 1fr;gap:56px}
+.story .kick{font-size:13px;color:var(--accent)}
+.story h2{color:var(--white);font-size:clamp(24px,2vw,29px);font-weight:700;line-height:1.16;margin:10px 0 0}
+.story .sig{margin-top:20px;font-size:12.5px;color:var(--muted)}
+.story-body p{font-size:14px;color:var(--body);line-height:1.72;max-width:62ch}
+.story-body p + p{margin-top:15px}
+.story-body em{color:var(--lede);font-style:normal}
 
 /* ---------- coffee --------------------------------------------------------- */
 .coffee{border-color:var(--coffee-b)}
@@ -339,6 +368,11 @@ p,figure,figcaption,ul,li{margin:0}
   .banner .btn{padding:9px 12px 10px;align-items:center}
   .banner .btn b{font-size:15px}
 
+  .story-in{grid-template-columns:1fr;gap:20px}
+  .story h2{font-size:24px}
+  .story .sig{margin-top:14px;font-size:13px}
+  .story-body p{font-size:15px;line-height:1.68}
+
   .coffee-in{grid-template-columns:1fr;gap:22px}
   .coffee .kick{font-size:14px}
   .coffee h2{font-size:24px;margin:8px 0 14px}
@@ -348,6 +382,7 @@ p,figure,figcaption,ul,li{margin:0}
   .foot .wrap{display:block}
   .foot .ig{margin-top:18px;justify-content:center;width:100%;min-height:48px}
   .foot .sp{margin:18px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cta-follow .btn{width:100%;min-height:52px}
   .foot .sp a{padding:6px 0}
 }
 
@@ -358,7 +393,7 @@ p,figure,figcaption,ul,li{margin:0}
 }
 </style>
 </head>
-<body>
+<body class="prelaunch">
 
 <div class="bg-fixed" aria-hidden="true">
   <img class="map" src="manhattan.jpg" alt="">
@@ -371,6 +406,7 @@ p,figure,figcaption,ul,li{margin:0}
     <span class="links">
       <a href="#how">How it works</a>
       <a href="#app">The app</a>
+      <a href="#story">The story</a>
       <a href="#coffee">Buy me a coffee</a>
       <a class="btn" href="#get"><span class="k">Get the</span><b>App</b></a>
     </span>
@@ -395,6 +431,9 @@ p,figure,figcaption,ul,li{margin:0}
   </div>
   <div class="wrap hero-cta" id="get">
     <p class="lede">Walk in, and pick up what they left behind.</p>
+    <div class="cta-follow">
+      <a class="btn" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><span class="k">Not out yet</span><b>Follow the build</b></a>
+    </div>
     <div class="stores">
       <a class="btn wide" data-store="ios" href="#"><span class="k">Download for</span><b>iPhone</b></a>
       <a class="btn wide alt" data-store="android" href="#"><span class="k">Download for</span><b>Android</b></a>
@@ -487,8 +526,29 @@ p,figure,figcaption,ul,li{margin:0}
       <div class="b-in">
         <h2>Discover the real world, and the songs that make it special.</h2>
         <div class="stores">
+          <a class="btn follow" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><b>Follow the build</b></a>
           <a class="btn" data-store="ios" href="#"><b>iPhone</b></a>
           <a class="btn alt" data-store="android" href="#"><b>Android</b></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="story">
+  <div class="wrap">
+    <div class="panel story">
+      <div class="story-in">
+        <div>
+          <p class="kick">Why this exists</p>
+          <h2>Places get stuck<br>to songs</h2>
+          <p class="sig">— Leo, solo developer and designer</p>
+        </div>
+        <div class="story-body">
+          <p>There is a strange thing I noticed after years of travelling: a place can get stuck to a song I would never listen to anywhere else. It is not that I like the song. It is what it carries.</p>
+          <p>One of them is not really my style, but every time it plays I am back with a street musician in Lisbon on some ordinary night. Another puts me straight on a beach volleyball court, sun overhead, nobody paying attention to anything but the ball.</p>
+          <p>I started wondering whether other people have this too — a song that marks a specific place, not because of the lyrics or the artist, but because of the moment. And what it would look like on a map. <em>Not a travel playlist. The exact place someone was standing when a song became a memory.</em></p>
+          <p>Making an app has started to feel too serious lately — conversion funnels, scaling, AI bolted onto everything. This was my way of getting the fun part back: building something just to build it, no business plan, no metric to optimise. Just using the tech I already know to make walking around a little more special.</p>
         </div>
       </div>
     </div>
@@ -518,6 +578,7 @@ p,figure,figcaption,ul,li{margin:0}
       <svg viewBox="0 0 18 18"><use href="#bp-ig"/></svg>@bpofsongs
     </a>
     <span class="sp">
+      <a href="press.html">Press kit</a>
       <a href="terms.html">Terms of use</a>
       <a href="privacy.html">Privacy policy</a>
       <a href="guidelines.html">Community guidelines</a>
@@ -549,6 +610,12 @@ p,figure,figcaption,ul,li{margin:0}
 
   var note = document.getElementById('storeNote');
 
+  /* Filling both addresses in STORE is the whole launch switch: it drops
+     body.prelaunch, which puts the download buttons back in front and takes
+     the account out of the hero. */
+  var LAUNCHED = !!(STORE.ios && STORE.android);
+  document.body.classList.toggle('prelaunch', !LAUNCHED);
+
   Array.prototype.forEach.call(document.querySelectorAll('[data-store]'), function (a) {
     var url = STORE[a.getAttribute('data-store')];
     if (url) {
@@ -556,6 +623,8 @@ p,figure,figcaption,ul,li{margin:0}
       a.rel = 'noopener';
       return;
     }
+    var kicker = a.querySelector('.k');
+    if (kicker) kicker.textContent = 'Soon on';
     a.addEventListener('click', function (e) {
       e.preventDefault();
       note.innerHTML = 'Not on the stores yet — follow <a href="' + INSTAGRAM +
