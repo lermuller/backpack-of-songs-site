@@ -85,7 +85,7 @@ p,figure,figcaption,ul,li{margin:0}
    It lives in the hero so the mobile layout can simply let it flow under the
    headline, and is pinned to the viewport on desktop so the panels scroll over
    it — later siblings of .hero paint on top of it at the same z-index.       */
-.radar-slot{position:relative;z-index:1;height:0}
+.radar-slot{position:relative;z-index:0;height:0}
 .radar{
   --s:min(409px,28vw);width:var(--s);height:var(--s);display:grid;place-items:center;
   position:fixed;left:50%;top:300px;transform:translate(-50%,-50%);pointer-events:none;
@@ -129,13 +129,16 @@ p,figure,figcaption,ul,li{margin:0}
 
 /* ---------- hero ----------------------------------------------------------- */
 .hero{position:relative;z-index:1;padding:76px 0 0}
+/* The radar is pinned to the viewport, so scrolling drags the hero's own text
+   across it. Both rows sit above it; only the panels below are opaque. */
+.hero-top,.hero-cta{position:relative;z-index:1}
 .hero-top{display:grid;grid-template-columns:32% 1fr 31%;align-items:start}
-.hero h1{font-size:clamp(30px,2.7vw,39px);font-weight:700;line-height:1.22}
-.hero .aside{grid-column:3;font-size:clamp(19px,1.7vw,24px);line-height:1.34;color:var(--lede);margin-top:18px}
+.hero h1{font-size:clamp(30px,2.7vw,39px);font-weight:700;line-height:1.22;text-shadow:0 2px 12px var(--bg)}
+.hero .aside{grid-column:3;font-size:clamp(19px,1.7vw,24px);line-height:1.34;color:var(--lede);margin-top:18px;text-shadow:0 2px 12px var(--bg)}
 .hero-cta{margin-top:clamp(170px,15vw,214px);text-align:center;padding-bottom:82px}
-.hero .lede{font-size:22px;color:var(--lede)}
+.hero .lede{font-size:22px;color:var(--lede);text-shadow:0 2px 10px var(--bg),0 0 18px var(--bg)}
 .stores{display:flex;gap:16px;justify-content:center;margin-top:30px}
-.hero .fine{margin-top:32px;font-size:19px;color:#C9BCB2}
+.hero .fine{margin-top:32px;font-size:19px;color:#C9BCB2;text-shadow:0 2px 10px var(--bg),0 0 18px var(--bg)}
 .hero .fine span{display:block;color:var(--accent);font-size:15px;margin-top:6px}
 
 /* ---------- buttons -------------------------------------------------------- */
@@ -261,7 +264,7 @@ p,figure,figcaption,ul,li{margin:0}
   .brand{font-size:16px;gap:9px}
   .brand svg{width:15px;height:17px}
   .nav .links{gap:0}
-  .nav .links a{display:none}
+  .nav .links a:not(.btn){display:none}
   .nav .btn{padding:9px 14px 10px}
   .nav .btn b{font-size:14px}
   .nav .btn .k{font-size:7px}
@@ -275,6 +278,7 @@ p,figure,figcaption,ul,li{margin:0}
   .hero h1{font-size:29px;line-height:1.2}
   .hero .aside{margin-top:16px;font-size:16px;line-height:1.45}
   .hero-cta{margin-top:0;padding-bottom:44px}
+  .hero h1,.hero .aside,.hero .lede,.hero .fine{text-shadow:none}
   .hero .lede{font-size:17px}
   .stores{display:grid;grid-template-columns:1fr;justify-content:stretch;gap:12px;margin-top:22px}
   .hero .fine{margin-top:22px;font-size:15px}
