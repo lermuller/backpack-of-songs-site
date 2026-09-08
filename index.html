@@ -31,7 +31,7 @@
 
 :root{
   /* Surfaces */
-  --bg:#221512; --panel:#1B100D; --panel-b:#3A2A22;
+  --bg:#221512; --panel:#1B100D; --panel-b:#3A2A22; --bar:#150C09;
   --note:#2E211B; --tile:#31261E; --saved:#17100F; --saved-b:#4E4329;
   /* Accent */
   --accent:#E99B29;
@@ -114,18 +114,39 @@ p,figure,figcaption,ul,li{margin:0}
 .radar .me img{width:100%;height:100%;animation:breathe 2600ms ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(.98)}50%{transform:scale(1.02)}}
 
-/* ---------- navbar --------------------------------------------------------- */
-.nav{position:relative;z-index:2}
+/* ---------- navbar ---------------------------------------------------------
+   Sticky. It rides over the map bare at the top of the page and only takes on
+   a bar — an opaque panel and a 2px rule — once something has scrolled under
+   it, so the hero keeps the full-bleed backdrop the design asks for.       */
+.nav{position:sticky;top:0;z-index:5;transition:background-color 160ms linear}
+.nav::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--panel-b);transform:scaleY(0);transform-origin:bottom;
+  transition:transform 160ms linear;
+}
+.nav.is-stuck{background:var(--bar)}
+.nav.is-stuck::after{transform:scaleY(1)}
 .nav .wrap{display:flex;align-items:center;height:64px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--accent);font-weight:700;font-size:17px}
 .brand svg{width:16px;height:18px}
+.nav .brand{letter-spacing:.01em}
 .nav .links{margin-left:auto;display:flex;align-items:center;gap:28px}
-.nav .links a{font-size:14px;font-weight:600;color:var(--dim)}
+.nav .links a{font-size:14px;font-weight:600;color:var(--dim);letter-spacing:.02em}
 .nav .links a:hover{color:var(--accent)}
+/* a marker block on hover, not a text underline — the page has none */
+.nav .links a:not(.btn){position:relative;padding:6px 0}
+.nav .links a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;transition:transform 140ms ease-out;
+}
+.nav .links a:not(.btn):hover::after{transform:scaleX(1)}
 .nav .links a.btn{color:var(--post-l)}
 .nav .btn{padding:7px 13px 8px}
 .nav .btn b{font-size:13px}
 .nav .btn .k{font-size:6px}
+
+/* the bar would otherwise cut the top off whatever an in-page link jumps to */
+[id]{scroll-margin-top:84px}
 
 /* ---------- hero ----------------------------------------------------------- */
 .hero{position:relative;z-index:1;padding:76px 0 0}
@@ -171,7 +192,7 @@ p,figure,figcaption,ul,li{margin:0}
 /* ---------- the app -------------------------------------------------------- */
 .shot-row{display:grid;grid-template-columns:repeat(3,minmax(0,290px));gap:clamp(24px,4.5vw,62px);justify-content:center;margin-top:8px}
 .shot img{width:223px;height:459px;margin:0 auto}
-.phone{position:relative;width:223px;height:459px;margin:0 auto;overflow:hidden;background:#150C09}
+.phone{position:relative;width:223px;height:459px;margin:0 auto;overflow:hidden;background:var(--bar)}
 .shot .cap{margin-top:26px}
 .shot .cap b{display:block;color:var(--accent);font-weight:600;font-size:13px;margin-bottom:5px}
 .shot .cap span{font-size:12.5px;color:var(--body);line-height:1.55}
@@ -261,6 +282,7 @@ p,figure,figcaption,ul,li{margin:0}
   .radar .me{width:34px;height:37px;margin:-19px 0 0 -17px}
 
   .nav .wrap{height:60px}
+  [id]{scroll-margin-top:76px}
   .brand{font-size:16px;gap:9px}
   .brand svg{width:15px;height:17px}
   .nav .links{gap:0}
@@ -524,6 +546,19 @@ p,figure,figcaption,ul,li{margin:0}
       note.textContent = 'Not on the stores yet — the listings go up when the app does.';
     });
   });
+
+  /* The navbar is bare over the hero and grows a bar once the page moves. */
+  var nav = document.querySelector('.nav');
+  var stuck = false;
+  function onScroll() {
+    var now = window.pageYOffset > 8;
+    if (now !== stuck) {
+      stuck = now;
+      nav.classList.toggle('is-stuck', now);
+    }
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   var tip = document.querySelector('[data-tip]');
   if (TIP_JAR) {
