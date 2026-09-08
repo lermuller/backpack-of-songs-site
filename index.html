@@ -97,14 +97,18 @@ p,figure,figcaption,ul,li{margin:0}
   --s:min(409px,28vw);width:var(--s);height:var(--s);display:grid;place-items:center;
   position:fixed;left:50%;top:300px;transform:translate(-50%,-50%);pointer-events:none;
 }
-.radar .glow{position:absolute;width:58%;height:58%;background:radial-gradient(circle,rgba(233,155,41,.13) 0%,rgba(233,155,41,0) 70%)}
-.ring{position:absolute;border:1px solid rgba(233,155,41,.5);border-radius:50%}
+.radar .glow,.ring,.ping{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.radar .glow{width:58%;height:58%;background:radial-gradient(circle,rgba(233,155,41,.13) 0%,rgba(233,155,41,0) 70%)}
+.ring{border:1px solid rgba(233,155,41,.5);border-radius:50%}
 .ring.a{width:40%;height:40%}
 .ring.b{width:69%;height:69%}
 .ring.c{width:100%;height:100%}
-.ping{position:absolute;width:100%;height:100%;border:1px solid var(--accent);border-radius:50%;opacity:0;animation:ping 2600ms linear infinite}
+.ping{width:100%;height:100%;border:1px solid var(--accent);border-radius:50%;opacity:0;animation:ping 2600ms linear infinite}
 .ping.b{animation-delay:1300ms}
-@keyframes ping{from{transform:scale(.02);opacity:.45}to{transform:scale(1);opacity:0}}
+@keyframes ping{
+  from{transform:translate(-50%,-50%) scale(.02);opacity:.45}
+  to{transform:translate(-50%,-50%) scale(1);opacity:0}
+}
 .orb{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--a)) translateY(calc(var(--s) * var(--r) * -1))}
 .orb .mk{
   position:absolute;left:50%;top:50%;width:96px;margin:-15px 0 0 -48px;
@@ -309,7 +313,11 @@ p,figure,figcaption,ul,li{margin:0}
   .bg-fixed .map{left:44%;top:20%;width:190%}
   .bg-fixed .vign{background:radial-gradient(90% 34% at 50% 16%,rgba(74,48,38,.30) 0%,rgba(34,21,18,.72) 55%,var(--bg) 90%)}
   .radar-slot{height:auto;display:grid;place-items:center;padding:18px 0 26px}
-  .radar{position:static;transform:none;--s:min(262px,68vw)}
+  /* relative, not static: the rings and the ping are absolutely positioned
+     against this box, and a static one is not their containing block — they
+     would size themselves against the full-width slot and come out as
+     ellipses. left/top are reset because the desktop rule pins them. */
+  .radar{position:relative;left:0;top:0;transform:none;--s:min(262px,68vw)}
   .orb .mk{width:84px;margin:-13px 0 0 -42px}
   .orb .tile{width:26px;height:25px}
   .orb .tile svg{width:21px;height:21px}
