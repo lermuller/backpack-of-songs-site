@@ -53,7 +53,6 @@
   --coll-bg:#16211A;   --coll-b:#2D844B;   --coll-n:#00AF3D;
   --like-bg:#3C1416;   --like-b:#AD183E;   --like-n:#D60037;
   /* Brand-adjacent */
-  --coffee-b:#8A5A33; --coffee-a:#D9A066; --coffee-l:#20140E;
   --flag-b:#493D2C;
 
   --wrap:1210px;
@@ -279,16 +278,6 @@ p,figure,figcaption,ul,li{margin:0}
 .story-body p + p{margin-top:15px}
 .story-body em{color:var(--lede);font-style:normal}
 
-/* ---------- coffee --------------------------------------------------------- */
-.coffee{border-color:var(--coffee-b)}
-.coffee-in{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
-.coffee .kick{font-size:13px;color:var(--coffee-a)}
-.coffee h2{color:var(--white);font-size:clamp(23px,2vw,28px);font-weight:700;margin:10px 0 16px}
-.coffee p{font-size:12.5px;color:var(--body);max-width:52ch;line-height:1.6}
-.coffee p + p{margin-top:12px}
-.coffee .cnote{display:block;margin-top:10px;color:var(--accent)}
-.btn.cof{background:var(--coffee-a);border-color:#F0C79A;color:var(--coffee-l)}
-
 /* ---------- footer --------------------------------------------------------- */
 .foot{position:relative;z-index:1;padding:44px 0 56px;color:var(--muted);font-size:12px}
 .foot .wrap{display:flex;gap:40px;align-items:baseline;flex-wrap:wrap}
@@ -381,11 +370,6 @@ p,figure,figcaption,ul,li{margin:0}
   .story .sig{margin-top:14px;font-size:13px}
   .story-body p{font-size:15px;line-height:1.68}
 
-  .coffee-in{grid-template-columns:1fr;gap:22px}
-  .coffee .kick{font-size:14px}
-  .coffee h2{font-size:24px;margin:8px 0 14px}
-  .coffee p{font-size:14px}
-
   .foot{padding:30px 0 44px;font-size:13px}
   .foot .wrap{display:block}
   .foot .ig{margin-top:18px;justify-content:center;width:100%;min-height:48px}
@@ -415,7 +399,6 @@ p,figure,figcaption,ul,li{margin:0}
       <a href="#how">How it works</a>
       <a href="#app">The app</a>
       <a href="#story">The story</a>
-      <a href="#coffee">Buy me a coffee</a>
       <a class="btn" href="#get"><span class="k">Get the</span><b>App</b></a>
     </span>
   </div>
@@ -563,22 +546,6 @@ p,figure,figcaption,ul,li{margin:0}
   </div>
 </section>
 
-<section class="sec" id="coffee">
-  <div class="wrap">
-    <div class="panel coffee">
-      <div class="coffee-in">
-        <div>
-          <p class="kick">Support the creator</p>
-          <h2>Buy me a coffee</h2>
-          <p>The app is free and it stays free. No ads, no subscription, no paid features, and nothing at all behind this — not a badge, not an extra, not a thank-you screen.</p>
-          <p>It is not in the app either. A tip inside the app would count as a purchase as far as Apple is concerned, so this page is the only place it exists.<span class="cnote" id="tipNote"></span></p>
-        </div>
-        <a class="btn cof wide" data-tip href="#"><span class="k">Only if you feel like it</span><b>Buy me a coffee</b></a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <footer class="foot">
   <div class="wrap">
     <span class="brand"><svg viewBox="0 0 38 42"><use href="#bp-backpack"/></svg>Backpack of Songs</span>
@@ -607,10 +574,6 @@ p,figure,figcaption,ul,li{margin:0}
     ios: '',
     android: ''
   };
-
-  /* The app already points its old profile card at this address. Confirm the
-     page is live before publishing — a dead donation link is worse than none. */
-  var TIP_JAR = 'https://buymeacoffee.com/backpackofsongs';
 
   /* Until the listings exist the buttons have nowhere to go, so they hand the
      visitor the one place that is actually live. */
@@ -652,19 +615,6 @@ p,figure,figcaption,ul,li{margin:0}
   }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-
-  var tip = document.querySelector('[data-tip]');
-  if (TIP_JAR) {
-    tip.href = TIP_JAR;
-    tip.rel = 'noopener';
-    tip.target = '_blank';
-  } else {
-    tip.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.getElementById('tipNote').textContent =
-        'The tip jar is not connected yet — set TIP_JAR in index.html.';
-    });
-  }
 })();
 </script>
 </body>
