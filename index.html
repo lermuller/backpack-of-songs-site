@@ -387,7 +387,7 @@ p,figure,figcaption,ul,li{margin:0}
 }
 </style>
 </head>
-<body class="prelaunch">
+<body>
 
 <div class="bg-fixed" aria-hidden="true">
   <img class="map" src="manhattan.jpg" alt="">
@@ -428,7 +428,7 @@ p,figure,figcaption,ul,li{margin:0}
       <a class="btn" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><span class="k">Not out yet</span><b>Follow the build</b></a>
     </div>
     <div class="stores">
-      <a class="btn wide" data-store="ios" href="#"><span class="k">Download for</span><b>iPhone</b></a>
+      <a class="btn wide" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811"><span class="k">Download for</span><b>iPhone</b></a>
       <a class="btn wide alt" data-store="android" href="#"><span class="k">Download for</span><b>Android</b></a>
     </div>
     <p class="fine">Free. And it stays free.<span id="storeNote"></span></p>
@@ -520,7 +520,7 @@ p,figure,figcaption,ul,li{margin:0}
         <h2>Discover the real world, and the songs that make it special.</h2>
         <div class="stores">
           <a class="btn follow" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><b>Follow the build</b></a>
-          <a class="btn" data-store="ios" href="#"><b>iPhone</b></a>
+          <a class="btn" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811"><b>iPhone</b></a>
           <a class="btn alt" data-store="android" href="#"><b>Android</b></a>
         </div>
       </div>
@@ -593,6 +593,8 @@ p,figure,figcaption,ul,li{margin:0}
   Array.prototype.forEach.call(document.querySelectorAll('[data-store]'), function (a) {
     var url = STORE[a.getAttribute('data-store')];
     if (url) {
+      /* The markup already carries a live listing's address, so the button
+         works with the script dead. This keeps the two in step. */
       a.href = url;
       a.rel = 'noopener';
       return;
