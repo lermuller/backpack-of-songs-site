@@ -191,8 +191,10 @@ p,figure,figcaption,ul,li{margin:0}
 .prelaunch .cta-follow{display:block}
 .cta-follow .btn{min-width:296px;align-items:center;justify-content:center}
 .prelaunch .hero .stores{margin-top:14px}
-.prelaunch .hero .stores .btn{background:transparent;border-color:var(--saved-b);color:var(--dim)}
-.prelaunch .hero .stores .btn:hover{border-color:var(--accent);color:var(--accent);filter:none}
+/* a store with no listing yet — set by the script, in either state */
+.btn.is-soon{background:transparent;border-color:var(--saved-b);color:var(--dim)}
+.btn.is-soon:hover{border-color:var(--accent);color:var(--accent);filter:none}
+.banner .btn.is-soon{background:rgba(21,12,9,.82)}
 .banner .follow{display:none}
 .prelaunch .banner .follow{display:inline-flex}
 .prelaunch .banner [data-store]{display:none}
@@ -568,10 +570,10 @@ p,figure,figcaption,ul,li{margin:0}
 (function () {
   'use strict';
 
-  /* Fill these in when the listings exist. Until then the buttons say so
-     rather than sending anyone to a page that is not there. */
+  /* The App Store listing went live 2026-10-08. Android has none yet, and the
+     empty string is what keeps that button honest — fill it the day it does. */
   var STORE = {
-    ios: '',
+    ios: 'https://apps.apple.com/app/backpack-of-songs/id6808656811',
     android: ''
   };
 
@@ -581,10 +583,11 @@ p,figure,figcaption,ul,li{margin:0}
 
   var note = document.getElementById('storeNote');
 
-  /* Filling both addresses in STORE is the whole launch switch: it drops
-     body.prelaunch, which puts the download buttons back in front and takes
-     the account out of the hero. */
-  var LAUNCHED = !!(STORE.ios && STORE.android);
+  /* One listing is enough to end the prelaunch state: the page stops leading
+     with the account and puts the download buttons back in front. Each button
+     then decides for itself, so a store that is still missing wears the muted
+     "Soon on" treatment instead of holding the whole page back. */
+  var LAUNCHED = !!(STORE.ios || STORE.android);
   document.body.classList.toggle('prelaunch', !LAUNCHED);
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-store]'), function (a) {
@@ -594,12 +597,16 @@ p,figure,figcaption,ul,li{margin:0}
       a.rel = 'noopener';
       return;
     }
+    a.classList.add('is-soon');
     var kicker = a.querySelector('.k');
     if (kicker) kicker.textContent = 'Soon on';
     a.addEventListener('click', function (e) {
       e.preventDefault();
-      note.innerHTML = 'Not on the stores yet — follow <a href="' + INSTAGRAM +
-        '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it is.';
+      note.innerHTML = (LAUNCHED
+        ? 'Android is still on the way — follow <a href="' + INSTAGRAM +
+          '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it lands.'
+        : 'Not on the stores yet — follow <a href="' + INSTAGRAM +
+          '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it is.');
     });
   });
 
