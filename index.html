@@ -54,6 +54,7 @@
   --like-bg:#3C1416;   --like-b:#AD183E;   --like-n:#D60037;
   /* Brand-adjacent */
   --flag-b:#493D2C;
+  --coffee-b:#8A5A33; --coffee-a:#D9A066; --coffee-l:#20140E;
 
   --wrap:1210px;
   --gut:clamp(20px,4vw,40px);
@@ -280,6 +281,22 @@ p,figure,figcaption,ul,li{margin:0}
 .story-body p + p{margin-top:15px}
 .story-body em{color:var(--lede);font-style:normal}
 
+/* ---------- coffee ---------------------------------------------------------
+   The button is Buy Me a Coffee's own widget, so it is the one thing on this
+   page with rounded corners, a yellow and another typeface. Everything around
+   it stays in the house style. It is an SVG served from their CDN at 235x50 —
+   the size is set here so the panel does not jump while it loads, and the
+   pixelated rendering the rest of the page uses is turned off for it. */
+.coffee{border-color:var(--coffee-b)}
+.coffee-in{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.coffee .kick{font-size:13px;color:var(--coffee-a)}
+.coffee h2{color:var(--white);font-size:clamp(23px,2vw,28px);font-weight:700;margin:10px 0 16px}
+.coffee p{font-size:12.5px;color:var(--body);max-width:52ch;line-height:1.6}
+.coffee p + p{margin-top:12px}
+.bmc{display:block}
+.bmc img{width:235px;height:50px;image-rendering:auto;shape-rendering:auto}
+.bmc:hover{filter:brightness(1.06)}
+
 /* ---------- footer --------------------------------------------------------- */
 .foot{position:relative;z-index:1;padding:44px 0 56px;color:var(--muted);font-size:12px}
 .foot .wrap{display:flex;gap:40px;align-items:baseline;flex-wrap:wrap}
@@ -367,6 +384,11 @@ p,figure,figcaption,ul,li{margin:0}
   .banner .btn{padding:9px 12px 10px;align-items:center}
   .banner .btn b{font-size:15px}
 
+  .coffee-in{grid-template-columns:1fr;gap:22px}
+  .coffee .kick{font-size:14px}
+  .coffee h2{font-size:24px;margin:8px 0 14px}
+  .coffee p{font-size:14px}
+
   .story-in{grid-template-columns:1fr;gap:20px}
   .story h2{font-size:24px}
   .story .sig{margin-top:14px;font-size:13px}
@@ -401,6 +423,7 @@ p,figure,figcaption,ul,li{margin:0}
       <a href="#how">How it works</a>
       <a href="#app">The app</a>
       <a href="#story">The story</a>
+      <a href="#coffee">Buy me a coffee</a>
       <a class="btn" href="#get"><span class="k">Get the</span><b>App</b></a>
     </span>
   </div>
@@ -543,6 +566,22 @@ p,figure,figcaption,ul,li{margin:0}
           <p>I started wondering whether other people have this too — a song that marks a specific place, not because of the lyrics or the artist, but because of the moment. And what it would look like on a map. <em>Not a travel playlist. The exact place someone was standing when a song became a memory.</em></p>
           <p>Making an app has started to feel too serious lately — conversion funnels, scaling, AI bolted onto everything. This was my way of getting the fun part back: building something just to build it, no business plan, no metric to optimise. Just using the tech I already know to make walking around a little more special.</p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="coffee">
+  <div class="wrap">
+    <div class="panel coffee">
+      <div class="coffee-in">
+        <div>
+          <p class="kick">Support the creator</p>
+          <h2>Buy me a coffee</h2>
+          <p>The app is free and it stays free. No ads, no subscription, no paid features, and nothing at all behind this — not a badge, not an extra, not a thank-you screen.</p>
+          <p>There is no way to pay from inside the app, and nothing in it links here. This page is the only place it exists.</p>
+        </div>
+        <a class="bmc" href="https://www.buymeacoffee.com/backpackofsongs" target="_blank" rel="noopener"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&#9749;&amp;slug=backpackofsongs&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Lato&amp;outline_colour=000000&amp;coffee_colour=ffffff" alt="Buy me a coffee" width="235" height="50"></a>
       </div>
     </div>
   </div>
