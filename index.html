@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backpack of Songs</title>
-<meta name="description" content="Discover songs that made memories, all around the world. Travellers leave the song they were listening to at the exact place they were standing.">
+<meta name="description" content="Songs are hidden all over the real world. Travellers leave the song they were listening to at the exact place they were standing — walk close enough and it appears.">
 <meta property="og:title" content="Backpack of Songs">
-<meta property="og:description" content="Discover songs that made memories, all around the world.">
+<meta property="og:description" content="Songs are hidden all over the real world.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://backpackofsongs.com/">
 <meta property="og:image" content="https://backpackofsongs.com/og-card.jpg">
@@ -14,7 +14,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A pixel-art traveller with a red backpack looking out over a city at sunset, beside the line: leave the song where you heard it.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#221512">
+<meta name="theme-color" content="#0B0605">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -26,580 +26,540 @@
 /* ---------------------------------------------------------------------------
    Backpack of Songs — marketing site.
 
-   Palette, type and geometry come from the app's own theme. Three rules carry
-   the look: nothing has a border radius, every "grey" is a brown, and the page
-   should read as a game screen, not a SaaS landing page. Nothing is ever
-   underlined. See site/README.md before changing them.
+   The page is a pixel desktop: content lives in windows that float on a dark
+   ground. House rules, unchanged: nothing has a border radius, every "grey" is
+   a brown, depth is a hard offset with no blur, nothing is ever underlined,
+   and Rajdhani is the only typeface.
 
-   The layout is the approved design canvas (design/Main.dc.html at 1440px,
-   design/Mobile.dc.html at 390px) made fluid: one desktop layout down to
-   960px, the mobile one below that.
+   Motion is stepped on purpose — steps() rather than eased curves — so it
+   reads as sprite animation instead of a web transition. All of it is off
+   under prefers-reduced-motion. See site/README.md before changing any of it.
 --------------------------------------------------------------------------- */
 
 :root{
-  /* Surfaces */
-  --bg:#221512; --panel:#1B100D; --panel-b:#3A2A22; --bar:#150C09;
-  --note:#2E211B; --tile:#31261E; --saved:#17100F; --saved-b:#4E4329;
-  /* Accent */
-  --accent:#E99B29;
-  --post:#FF9809; --post-b:#FFC38B; --post-l:#170D0B;
-  /* Text */
-  --white:#FFFFFF; --cap:#D4D4D4; --lede:#D8CCC2; --body:#B0A196;
-  --dim:#B7A99C; --muted:#8A7A6D;
-  /* Radar */
-  --marker-bg:#231C16; --marker-b:#9E6C22;
-  /* Category colours — the backpack counters only, never decorative */
-  --shares-bg:#1A1D20; --shares-b:#164C8A; --shares-n:#0262D1;
-  --coll-bg:#16211A;   --coll-b:#2D844B;   --coll-n:#00AF3D;
-  --like-bg:#3C1416;   --like-b:#AD183E;   --like-n:#D60037;
-  /* Brand-adjacent */
-  --flag-b:#493D2C;
-  --coffee-b:#8A5A33; --coffee-a:#D9A066; --coffee-l:#20140E;
-
-  --wrap:1210px;
-  --gut:clamp(20px,4vw,40px);
+  --bg:#0B0605; --win:#150C09; --win2:#1A100C;
+  --line:#4E4329; --line2:#2A1C16; --tile:#31261E; --marker-b:#9E6C22;
+  --ink:#FFF0CF; --body:#C9B9AA; --dim:#9A8878; --muted:#9E6C22;
+  --accent:#E99B29; --post:#FF9809; --post-b:#FFC38B; --post-l:#150C09;
+  --coffee:#D9A066; --coffee-b:#8A5A33; --coffee-l:#20140E; --coffee-bg:#20140E;
+  --shares-bg:#1A1D20; --shares-b:#164C8A; --shares-n:#4F9BEA;
+  --coll-bg:#16211A;   --coll-b:#2D844B;   --coll-n:#3FC46E;
+  --like-bg:#3C1416;   --like-b:#AD183E;   --like-n:#F2537A;
+  --wrap:1440px; --gut:clamp(16px,3vw,24px);
   --sans:'Rajdhani','Oswald','Roboto Condensed',system-ui,sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box;border-radius:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
-  margin:0;background:var(--bg);color:var(--cap);
-  font-family:var(--sans);font-size:14px;line-height:1.45;
+  margin:0;background:var(--bg);color:var(--body);
+  background-image:repeating-conic-gradient(rgba(255,240,207,.05) 0% 25%,rgba(0,0,0,0) 0% 50%);
+  background-size:4px 4px;
+  font-family:var(--sans);font-size:16px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-img,svg{display:block;image-rendering:pixelated;shape-rendering:crispEdges}
-img{max-width:100%}
+img{display:block;max-width:100%;image-rendering:pixelated}
+svg{display:block}
 a{color:var(--accent);text-decoration:none}
-h1,h2,h3,h4{margin:0;line-height:1.1;color:var(--accent)}
-p,figure,figcaption,ul,li{margin:0}
-:focus-visible{outline:2px solid var(--post-b);outline-offset:3px}
+a:hover{color:var(--ink)}
+h1,h2,h3{margin:0;line-height:1.1;color:var(--ink)}
+p{margin:0}
+:focus-visible{outline:3px solid var(--post-b);outline-offset:3px}
 
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+/* the navbar is sticky, so an in-page link must stop short of it */
+[id]{scroll-margin-top:clamp(92px,11vw,120px)}
+.row{display:flex;flex-wrap:wrap;gap:clamp(18px,2.2vw,28px);align-items:flex-start}
+.sec{padding-top:clamp(28px,4vw,44px)}
 
-/* ---------- fixed backdrop: the map, then the radar, behind everything ----- */
-.bg-fixed{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.bg-fixed .map{
-  position:absolute;left:34%;top:34%;width:165%;max-width:none;
-  transform:translate(-50%,-50%);opacity:.10;
+/* ---------- the window ----------------------------------------------------- */
+.win{
+  border:4px solid var(--line);background:var(--win);
+  box-shadow:clamp(6px,1vw,10px) clamp(6px,1vw,10px) 0 var(--line2);
+  transition:transform 120ms steps(2),box-shadow 120ms steps(2);
 }
-.bg-fixed .vign{
-  position:absolute;inset:0;
-  background:radial-gradient(88% 46% at 48% 16%,rgba(74,48,38,.30) 0%,rgba(34,21,18,.72) 52%,var(--bg) 88%);
-}
+.win:hover{transform:translate(-2px,-2px);box-shadow:clamp(9px,1.4vw,14px) clamp(9px,1.4vw,14px) 0 var(--line2)}
+.bar{display:flex;align-items:center;gap:10px;background:var(--post);padding:7px 12px}
+.bar b{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--post-l)}
+.dots{margin-left:auto;display:flex;gap:6px}
+.dots i{width:15px;height:15px;display:block;background:var(--post-l)}
+.dots i.l{background:var(--ink)}
+.pad{padding:clamp(18px,2vw,24px) clamp(16px,1.8vw,22px)}
 
-/* ---------- radar ---------------------------------------------------------- *
-   It lives in the hero so the mobile layout can simply let it flow under the
-   headline, and is pinned to the viewport on desktop so the panels scroll over
-   it — later siblings of .hero paint on top of it at the same z-index.       */
-.radar-slot{position:relative;z-index:0;height:0}
-.radar{
-  --s:min(409px,28vw);width:var(--s);height:var(--s);display:grid;place-items:center;
-  position:fixed;left:50%;top:300px;transform:translate(-50%,-50%);pointer-events:none;
-}
-.radar .glow,.ring,.ping{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-.radar .glow{width:58%;height:58%;background:radial-gradient(circle,rgba(233,155,41,.13) 0%,rgba(233,155,41,0) 70%)}
-.ring{border:1px solid rgba(233,155,41,.5);border-radius:50%}
-.ring.a{width:40%;height:40%}
-.ring.b{width:69%;height:69%}
-.ring.c{width:100%;height:100%}
-.ping{width:100%;height:100%;border:1px solid var(--accent);border-radius:50%;opacity:0;animation:ping 2600ms linear infinite}
-.ping.b{animation-delay:1300ms}
-@keyframes ping{
-  from{transform:translate(-50%,-50%) scale(.02);opacity:.45}
-  to{transform:translate(-50%,-50%) scale(1);opacity:0}
-}
-.orb{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--a)) translateY(calc(var(--s) * var(--r) * -1))}
-.orb .mk{
-  position:absolute;left:50%;top:50%;width:96px;margin:-15px 0 0 -48px;
-  text-align:center;transform:rotate(calc(var(--a) * -1));
-}
-.orb .drift{display:block;animation:drift 5200ms ease-in-out infinite;animation-delay:var(--dl,0ms)}
-@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.orb .tile{width:30px;height:29px;margin:0 auto;background:var(--marker-bg);border:1px solid var(--marker-b);display:grid;place-items:center}
-.orb .tile svg{width:24px;height:24px;animation:spin 9s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.orb .ar{display:block;margin-top:4px;font-size:11px;font-weight:600;color:var(--white);text-shadow:0 1px 3px #0B0605}
-.orb .ti{display:block;font-size:9px;font-weight:400;color:#C6B6A8;text-shadow:0 1px 3px #0B0605}
-.radar .me{position:absolute;left:50%;top:50%;width:39px;height:43px;margin:-22px 0 0 -20px}
-.radar .me img{width:100%;height:100%;animation:breathe 2600ms ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(.98)}50%{transform:scale(1.02)}}
+/* title-bar variants, so the windows do not all read the same */
+.v-brown{border-color:#5A3A22}        .v-brown>.bar{background:#5A3A22}
+.v-coffee{border-color:var(--coffee-b)} .v-coffee>.bar{background:var(--coffee-b)}
+.v-tile{border-color:var(--tile)}     .v-tile>.bar{background:var(--tile)}
+.v-note{border-color:#2E211B}         .v-note>.bar{background:#2E211B}
+.v-blue{border-color:#27486E}         .v-blue>.bar{background:#27486E}
+.v-brown>.bar b,.v-coffee>.bar b,.v-tile>.bar b,.v-note>.bar b,.v-blue>.bar b{color:var(--ink)}
+.v-brown>.bar .dots i,.v-tile>.bar .dots i,.v-note>.bar .dots i,.v-blue>.bar .dots i{background:var(--win)}
+.v-brown>.bar .dots i.l,.v-tile>.bar .dots i.l,.v-note>.bar .dots i.l,.v-blue>.bar .dots i.l{background:var(--ink)}
+.v-coffee>.bar .dots i{background:var(--coffee-bg)}
 
-/* ---------- navbar ---------------------------------------------------------
-   Sticky. It rides over the map bare at the top of the page and only takes on
-   a bar — an opaque panel and a 2px rule — once something has scrolled under
-   it, so the hero keeps the full-bleed backdrop the design asks for.       */
-.nav{position:sticky;top:0;z-index:5;transition:background-color 160ms linear}
-.nav::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
-  background:var(--panel-b);transform:scaleY(0);transform-origin:bottom;
-  transition:transform 160ms linear;
+/* ---------- navbar: a floating panel, no title bar ------------------------- */
+.nav{position:sticky;top:0;z-index:30;padding-top:clamp(14px,2vw,24px)}
+.nav-in{
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px clamp(16px,2vw,28px);
+  padding:clamp(12px,1.4vw,18px) clamp(14px,1.6vw,22px);
+  border:4px solid var(--line);background:var(--win);
+  box-shadow:clamp(6px,1vw,10px) clamp(6px,1vw,10px) 0 var(--line2);
 }
-.nav.is-stuck{background:var(--bar)}
-.nav.is-stuck::after{transform:scaleY(1)}
-.nav .wrap{display:flex;align-items:center;height:64px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--accent);font-weight:700;font-size:17px}
-.brand svg{width:16px;height:18px}
-.nav .brand{letter-spacing:.01em}
-.nav .links{margin-left:auto;display:flex;align-items:center;gap:28px}
-.nav .links a{font-size:14px;font-weight:600;color:var(--dim);letter-spacing:.02em}
-.nav .links a:hover{color:var(--accent)}
-/* a marker block on hover, not a text underline — the page has none */
-.nav .links a:not(.btn){position:relative;padding:6px 0}
-.nav .links a:not(.btn)::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);
-  transform:scaleX(0);transform-origin:left;transition:transform 140ms ease-out;
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:700;font-size:clamp(16px,1.6vw,19px)}
+.brand svg{width:26px;height:29px}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px clamp(14px,1.8vw,24px)}
+.nav-links a{
+  font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--body);
+  padding:10px 0;
 }
-.nav .links a:not(.btn):hover::after{transform:scaleX(1)}
-.nav .links a.btn{color:var(--post-l)}
-.nav .btn{padding:7px 13px 8px}
-.nav .btn b{font-size:13px}
-.nav .btn .k{font-size:6px}
-
-/* the bar would otherwise cut the top off whatever an in-page link jumps to */
-[id]{scroll-margin-top:84px}
-
-/* ---------- hero ----------------------------------------------------------- */
-.hero{position:relative;z-index:1;padding:76px 0 0}
-/* The radar is pinned to the viewport, so scrolling drags the hero's own text
-   across it. Both rows sit above it; only the panels below are opaque. */
-.hero-top,.hero-cta{position:relative;z-index:1}
-.hero-top{display:grid;grid-template-columns:32% 1fr 31%;align-items:start}
-.hero h1{font-size:clamp(30px,2.7vw,39px);font-weight:700;line-height:1.22;text-shadow:0 2px 12px var(--bg)}
-.hero .aside{grid-column:3;font-size:clamp(19px,1.7vw,24px);line-height:1.34;color:var(--lede);margin-top:18px;text-shadow:0 2px 12px var(--bg)}
-.hero-cta{margin-top:clamp(170px,15vw,214px);text-align:center;padding-bottom:82px}
-.hero .lede{font-size:22px;color:var(--lede);text-shadow:0 2px 10px var(--bg),0 0 18px var(--bg)}
-.stores{display:flex;gap:16px;justify-content:center;margin-top:30px}
-.hero .fine{margin-top:32px;font-size:19px;color:#C9BCB2;text-shadow:0 2px 10px var(--bg),0 0 18px var(--bg)}
-.hero .fine span{display:block;color:var(--accent);font-size:15px;margin-top:6px}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{margin-left:auto}
 
 /* ---------- buttons -------------------------------------------------------- */
 .btn{
-  display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;
-  background:var(--post);border:2px solid var(--post-b);color:var(--post-l);
-  font-family:inherit;font-weight:700;line-height:1.1;padding:10px 19px 11px;
-  cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:0 24px;
+  background:var(--post);border:4px solid var(--post-b);box-shadow:5px 5px 0 #000;
+  color:var(--post-l);font-family:inherit;font-size:15px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:transform 100ms steps(2),box-shadow 100ms steps(2);
 }
-.btn .k{font-size:8px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.78}
-.btn b{font-size:19px;font-weight:700}
-.btn.alt{background:transparent;border-color:var(--accent);color:var(--accent)}
-.btn:hover{filter:brightness(1.08)}
+.btn:hover{color:var(--post-l);transform:translate(-2px,-2px);box-shadow:8px 8px 0 #000}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.btn.block{display:flex;width:100%;min-height:56px;font-size:17px}
+.btn.coffee{background:var(--coffee);border-color:#F0C79A;color:var(--coffee-l);box-shadow:6px 6px 0 var(--win)}
+.btn.coffee:hover{color:var(--coffee-l)}
+.btn.ghost{background:transparent;border:3px dashed var(--muted);box-shadow:none;color:var(--accent);min-height:48px;font-size:14px}
+.btn.ghost:hover{color:var(--ink);transform:none;box-shadow:none;border-color:var(--accent)}
+.btn.is-soon{background:transparent;border-color:var(--line);box-shadow:none;color:var(--dim)}
+.btn.is-soon:hover{color:var(--accent);border-color:var(--accent);transform:none;box-shadow:none}
 
-/* Until the listings exist the download buttons lead nowhere, so the account
-   takes the lead and they step back. Filling STORE in the script below undoes
-   all of this at once — see body.prelaunch. */
-.cta-follow{display:none;margin-top:30px}
-.prelaunch .cta-follow{display:block}
-.cta-follow .btn{min-width:296px;align-items:center;justify-content:center}
-.prelaunch .hero .stores{margin-top:14px}
-/* a store with no listing yet — set by the script, in either state */
-.btn.is-soon{background:transparent;border-color:var(--saved-b);color:var(--dim)}
-.btn.is-soon:hover{border-color:var(--accent);color:var(--accent);filter:none}
-.banner .btn.is-soon{background:rgba(21,12,9,.82)}
-.banner .follow{display:none}
-.prelaunch .banner .follow{display:inline-flex}
-.prelaunch .banner [data-store]{display:none}
+/* ---------- hero ----------------------------------------------------------- */
+.hero-map{position:relative;overflow:hidden;border-bottom:4px solid var(--line)}
+.hero-map > img{width:100%;height:clamp(260px,34vw,440px);object-fit:cover;object-position:50% 44%}
+.radar{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(320px,74vw);height:min(320px,74vw);
+}
+.radar > img.rings{width:100%;height:100%}
+.ping{
+  position:absolute;left:50%;top:50%;width:100%;height:100%;
+  transform:translate(-50%,-50%) scale(.1);
+  border:2px solid var(--accent);border-radius:50%;opacity:0;
+  animation:ping 3200ms steps(8) infinite;
+}
+.ping.b{animation-delay:1600ms}
+@keyframes ping{from{transform:translate(-50%,-50%) scale(.1);opacity:.5}to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.mk{
+  position:absolute;width:clamp(34px,9vw,44px);height:clamp(34px,9vw,44px);
+  transform:translate(-50%,-50%);background:#231C16;border:4px solid var(--marker-b);
+  display:flex;align-items:center;justify-content:center;
+  animation:bob 2600ms steps(4) infinite;
+}
+.mk svg{width:62%;height:62%}
+.mk:nth-of-type(2){animation-delay:600ms}
+.mk:nth-of-type(3){animation-delay:1200ms}
+@keyframes bob{0%,100%{margin-top:0}50%{margin-top:-5px}}
+.me{position:absolute;left:50%;top:50%;width:46px;height:50px;transform:translate(-50%,-50%);animation:breathe 2600ms steps(3) infinite}
+@keyframes breathe{0%,100%{width:44px;height:48px}50%{width:48px;height:52px}}
+.map-foot{display:flex;flex-wrap:wrap;gap:6px 20px;padding:12px 14px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.map-foot span:last-child{margin-left:auto}
 
-/* ---------- panels --------------------------------------------------------- */
-.sec{position:relative;z-index:1;margin-bottom:22px}
-.panel{background:var(--panel);border:1px solid var(--panel-b);padding:40px}
-.panel.flush{padding:0;overflow:hidden}
-.p-head h2{font-size:clamp(24px,2.1vw,30px);font-weight:700;line-height:1.16}
+.hero-h1{font-size:clamp(30px,4.2vw,48px);line-height:1;font-weight:700;letter-spacing:-.015em;text-transform:uppercase}
+.hero-h1 em{font-style:normal;color:var(--post)}
+.cur{display:inline-block;width:.55em;height:.08em;margin-left:.08em;background:var(--post);vertical-align:baseline;animation:blink 1100ms steps(1) infinite}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.lede{margin-top:18px;font-size:clamp(15px,1.5vw,17px);line-height:1.55;color:var(--body)}
+.kick{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.fine{margin-top:16px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.fine span{display:block;margin-top:6px;color:var(--accent);letter-spacing:.02em;text-transform:none;font-size:14px}
 
-/* ---------- how it works --------------------------------------------------- */
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,275px));gap:19px;justify-content:center;margin-top:60px}
-.step{border:1px solid var(--saved-b);padding:18px 18px 22px}
-.step .glyph{width:36px;height:36px;display:grid;place-items:center;background:var(--marker-bg);border:1px solid var(--marker-b);margin-bottom:16px}
-.step .glyph svg{width:20px;height:20px}
-.step .n{font-size:8px;font-weight:700;letter-spacing:.22em;color:var(--accent);text-transform:uppercase}
-.step h3{font-size:15px;font-weight:700;color:var(--white);margin:5px 0 9px;line-height:1.2}
-.step p{font-size:11px;color:var(--body);line-height:1.55}
+/* ---------- ticker --------------------------------------------------------- */
+.ticker{
+  margin-top:clamp(28px,4vw,44px);overflow:hidden;
+  border-top:4px solid var(--line2);border-bottom:4px solid var(--line2);
+  background:var(--win);padding:10px 0;
+}
+.ticker-in{display:flex;width:max-content;animation:slide 34s linear infinite}
+.ticker-in span{
+  padding:0 22px;font-size:12px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap;
+}
+.ticker-in span b{color:var(--accent);font-weight:700}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ---------- the app -------------------------------------------------------- */
-.shot-row{display:grid;grid-template-columns:repeat(3,minmax(0,290px));gap:clamp(24px,4.5vw,62px);justify-content:center;margin-top:8px}
-.shot img{width:223px;height:459px;margin:0 auto}
-.phone{position:relative;width:223px;height:459px;margin:0 auto;overflow:hidden;background:var(--bar)}
-.shot .cap{margin-top:26px}
-.shot .cap b{display:block;color:var(--accent);font-weight:600;font-size:13px;margin-bottom:5px}
-.shot .cap span{font-size:12.5px;color:var(--body);line-height:1.55}
+/* ---------- sections ------------------------------------------------------- */
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:18px}
+.sec-head h2{font-size:clamp(24px,3vw,34px);font-weight:700;text-transform:uppercase}
+.sec-head span{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 
-/* the backpack screen, drawn at the app's 393pt width and scaled into the frame */
-.scaler{position:absolute;left:0;top:0;width:393px;height:800px;transform:scale(.5674);transform-origin:top left;color:var(--white);line-height:1.2}
-.m-head{position:absolute;left:20px;right:20px;top:20px;display:flex;align-items:center;gap:14px}
-.m-head svg.bp{width:36px;height:40px}
-.m-head .t{flex:1;font-size:20px;font-weight:600;color:var(--accent)}
-.m-head .x{position:relative;width:17px;height:17px}
-.m-head .x b{position:absolute;left:0;top:8px;width:17px;height:2px;background:var(--white);transform:rotate(45deg)}
-.m-head .x b:nth-child(2){transform:rotate(-45deg)}
-.m-body{position:absolute;left:17px;right:17px;top:80px}
-.m-banner{height:80px;background:var(--tile);border:2px solid var(--accent);display:flex;align-items:center;gap:14px;padding:0 24px}
-.m-banner .num{font-size:52px;font-weight:700;color:var(--accent);line-height:1}
-.m-banner .lb{font-size:19px;font-weight:600;color:var(--accent)}
-.m-flags{margin-top:6px;height:62px;display:flex;gap:6px}
-.m-flags i{width:60px;background:var(--tile);border:2px solid var(--flag-b);display:grid;place-items:center;font-size:20px;font-style:normal}
-.m-count{margin-top:14px;display:flex;gap:6px}
-.m-count > div{flex:1;height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-width:2px;border-style:solid}
-.m-count .ic{height:34px;display:grid;place-items:center}
-.m-count .v{font-size:34px;font-weight:700;margin-top:6px;line-height:1}
-.m-count .l{font-size:12px;font-weight:600;margin-top:9px}
-.c-sh{background:var(--shares-bg);border-color:var(--shares-b)}
-.c-sh .v{color:var(--shares-n)}
-.c-sh .ic{width:36px;background:var(--marker-bg)}
-.c-sh .ic svg{width:23px;height:23px}
-.c-co{background:var(--coll-bg);border-color:var(--coll-b)}
-.c-co .v{color:var(--coll-n)}
-.c-co .ic svg{width:31px;height:34px}
-.c-li{background:var(--like-bg);border-color:var(--like-b)}
-.c-li .v{color:var(--like-n)}
-.c-li .ic svg{width:22px;height:19px}
-.m-saved{margin-top:26px;font-size:19px;font-weight:700}
-.m-rows{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-.m-row{background:var(--saved);border:2px solid var(--saved-b);padding:10px;display:flex;gap:12px;align-items:flex-start}
-.m-row .vin{width:44px;height:44px;flex:none;border-radius:50%;background:var(--note)}
-.m-row .col{flex:1;min-width:0}
-.m-row .tt{display:block;font-size:14px;color:var(--white)}
-.m-row .ar{display:block;font-size:8px;font-weight:600;margin-top:1px;color:var(--accent)}
-.m-row .pl{margin-top:5px;display:flex;align-items:center;gap:3px;font-size:9px;color:var(--body)}
-.m-row .pl svg{width:7px;height:10px}
-.m-row .pl .dt{margin-left:auto;color:var(--white)}
+.step{border:3px solid var(--line);padding:20px;background:var(--win2);flex:1 1 280px;min-width:0}
+.step-top{display:flex;align-items:center;gap:12px}
+.step-n{width:42px;height:42px;background:#5A3A22;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700}
+.step-top svg{width:32px;height:32px}
+.step h3{margin:16px 0 8px;font-size:clamp(18px,1.9vw,21px);font-weight:700;text-transform:uppercase}
+.step p{font-size:15px;color:var(--body)}
 
-/* ---------- banner --------------------------------------------------------- */
-.banner{position:relative;height:356px}
-.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:auto}
-.banner .b-in{position:absolute;right:60px;top:52px;bottom:44px;width:330px;max-width:calc(100% - 120px);
-  display:flex;flex-direction:column;justify-content:space-between}
-.banner h2{font-size:clamp(23px,2vw,29px);font-weight:700;color:var(--white);line-height:1.18;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-.banner .stores{justify-content:flex-start;margin:0}
-.banner .btn.alt{background:rgba(21,12,9,.82)}
+.log-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:3px solid var(--line2)}
+.log-row:last-child{border-bottom:0}
+.log-row img,.log-row .q{width:46px;height:46px;flex:none;border:3px solid var(--line);background:var(--win2)}
+.log-row .q{display:flex;align-items:center;justify-content:center;border-style:dashed;border-color:var(--muted);font-size:20px;font-weight:700;color:var(--muted)}
+.log-row .t{flex:1;min-width:0}
+.log-row .t b{display:block;font-size:clamp(17px,1.8vw,20px);font-weight:700;line-height:1.15;color:var(--ink)}
+.log-row .t span{display:block;font-size:14px;color:var(--dim)}
+.log-row .d{font-size:15px;font-weight:700;color:var(--accent)}
 
-/* ---------- the story ------------------------------------------------------ */
-.story-in{display:grid;grid-template-columns:31% 1fr;gap:56px}
-.story .kick{font-size:13px;color:var(--accent)}
-.story h2{color:var(--white);font-size:clamp(24px,2vw,29px);font-weight:700;line-height:1.16;margin:10px 0 0}
-.story .sig{margin-top:20px;font-size:12.5px;color:var(--muted)}
-.story-body p{font-size:14px;color:var(--body);line-height:1.72;max-width:62ch}
-.story-body p + p{margin-top:15px}
-.story-body em{color:var(--lede);font-style:normal}
+.faces{display:flex;flex-wrap:wrap;gap:8px}
+.faces img,.faces .more{width:62px;height:62px;border:3px solid var(--line);background:var(--win2)}
+.faces .more{display:flex;align-items:center;justify-content:center;border-style:dashed;border-color:var(--muted);font-size:13px;font-weight:700;color:var(--muted)}
 
-/* ---------- coffee ---------------------------------------------------------
-   The button is Buy Me a Coffee's own widget, so it is the one thing on this
-   page with rounded corners, a yellow and another typeface. Everything around
-   it stays in the house style. It is an SVG served from their CDN at 235x50 —
-   the size is set here so the panel does not jump while it loads, and the
-   pixelated rendering the rest of the page uses is turned off for it. */
-.coffee{border-color:var(--coffee-b)}
-.coffee-in{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
-.coffee .kick{font-size:13px;color:var(--coffee-a)}
-.coffee h2{color:var(--white);font-size:clamp(23px,2vw,28px);font-weight:700;margin:10px 0 16px}
-.coffee p{font-size:12.5px;color:var(--body);max-width:52ch;line-height:1.6}
-.coffee p + p{margin-top:12px}
-.bmc{display:block}
-.bmc img{width:235px;height:50px;image-rendering:auto;shape-rendering:auto}
-.bmc:hover{filter:brightness(1.06)}
+.ui-win{flex:1 1 300px;min-width:0}
+.ui-win img{width:100%;border-bottom:4px solid #2E211B}
+.ui-win p{padding:12px 14px;font-size:14px;color:var(--body)}
+
+.shots{display:flex;flex-wrap:wrap;gap:clamp(16px,2vw,24px);justify-content:center;padding:clamp(20px,2.4vw,28px)}
+.shots img{width:min(236px,72vw);height:auto;border:4px solid var(--line);box-shadow:8px 8px 0 var(--bg)}
+
+.count{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:3px solid;margin-bottom:8px}
+.count span{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.count b{font-size:24px;font-weight:700;line-height:1}
+.c-sh{background:var(--shares-bg);border-color:var(--shares-b)} .c-sh span{color:#8FA7BC} .c-sh b{color:var(--shares-n)}
+.c-co{background:var(--coll-bg);border-color:var(--coll-b)}     .c-co span{color:#8FBC9C} .c-co b{color:var(--coll-n)}
+.c-li{background:var(--like-bg);border-color:var(--like-b)}     .c-li span{color:#D29AA8} .c-li b{color:var(--like-n)}
+.c-cn{background:var(--tile);border-color:var(--muted);margin-bottom:0} .c-cn span{color:#C2A37A} .c-cn b{color:var(--post)}
+
+.who{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:3px solid var(--line2)}
+.who img{width:56px;height:56px;border:3px solid var(--line);background:var(--win2)}
+.who b{display:block;font-size:19px;font-weight:700;color:var(--ink)}
+.who span{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.story p{margin-top:16px;font-size:16px;line-height:1.75;color:var(--body)}
+.pull{margin-top:18px;padding:14px 16px;background:var(--win2);border:3px solid var(--line);font-size:17px;line-height:1.5;font-weight:700;color:var(--ink)}
+
+.cap{padding:14px 18px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.coffee-body p{margin-bottom:18px;font-size:15px;line-height:1.6;color:var(--body)}
+.coffee-body h3{font-size:clamp(22px,2.4vw,28px);font-weight:700;text-transform:uppercase;margin:10px 0 12px}
+.bmc img{width:235px;height:50px;image-rendering:auto}
+
+/* ---------- the closing plate ---------------------------------------------- */
+.go{
+  margin-top:clamp(32px,4vw,56px);padding:clamp(40px,5vw,64px) clamp(20px,3vw,32px) clamp(44px,5vw,68px);
+  background:var(--win2);border:4px solid var(--muted);
+  box-shadow:clamp(8px,1.2vw,12px) clamp(8px,1.2vw,12px) 0 var(--line2);text-align:center;
+}
+.go img{width:clamp(72px,9vw,104px);height:auto;margin:0 auto clamp(18px,2.4vw,26px);animation:hover 3000ms steps(4) infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.go h2{font-size:clamp(40px,7.4vw,72px);line-height:.96;font-weight:700;letter-spacing:-.02em;text-transform:uppercase}
+.go p{margin:18px auto 0;max-width:26em;font-size:clamp(16px,1.7vw,19px);line-height:1.45;color:var(--body)}
+.go .btn{margin-top:26px}
 
 /* ---------- footer --------------------------------------------------------- */
-.foot{position:relative;z-index:1;padding:44px 0 56px;color:var(--muted);font-size:12px}
-.foot .wrap{display:flex;gap:40px;align-items:baseline;flex-wrap:wrap}
-.foot .brand{font-size:15px}
-.foot .brand svg{width:15px;height:17px}
-.foot .ig{
-  align-self:center;display:inline-flex;align-items:center;gap:9px;
-  border:2px solid var(--saved-b);padding:7px 13px;
-  color:var(--body);font-size:13px;font-weight:600;
+.foot{margin-top:clamp(28px,4vw,44px);padding:18px 0;background:var(--win);border-top:4px solid var(--line2)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:12px clamp(16px,2vw,24px);align-items:center}
+.foot .brand{font-size:12px;letter-spacing:.16em;text-transform:uppercase;gap:10px}
+.foot .brand svg{width:16px;height:18px}
+.foot a{font-size:13px;font-weight:700;padding:6px 0}
+.foot a.q{color:var(--dim);font-weight:400}
+.foot .note{margin-left:auto;font-size:12px;color:#6E5F52}
+
+/* ---------- motion: reveal, and the boot screen ---------------------------- */
+.js .reveal{opacity:0}
+.js .reveal.in{animation:pop 260ms steps(4) forwards}
+@keyframes pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.boot{
+  position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  animation:bootout 300ms steps(3) 1500ms forwards;
 }
-.foot .ig svg{width:16px;height:16px}
-.foot .ig:hover{color:var(--accent);border-color:var(--accent)}
-.foot .sp{margin-left:auto;display:flex;gap:22px;flex-wrap:wrap}
-.foot .sp a{color:var(--body)}
-.foot .sp a:hover{color:var(--accent)}
-
-/* ---------- mobile: the 390px artboard, thumb-sized targets ---------------- */
-@media (max-width:959px){
-  body{font-size:16px;line-height:1.5}
-  :root{--gut:20px}
-
-  .bg-fixed .map{left:44%;top:20%;width:190%}
-  .bg-fixed .vign{background:radial-gradient(90% 34% at 50% 16%,rgba(74,48,38,.30) 0%,rgba(34,21,18,.72) 55%,var(--bg) 90%)}
-  .radar-slot{height:auto;display:grid;place-items:center;padding:18px 0 26px}
-  /* relative, not static: the rings and the ping are absolutely positioned
-     against this box, and a static one is not their containing block — they
-     would size themselves against the full-width slot and come out as
-     ellipses. left/top are reset because the desktop rule pins them. */
-  .radar{position:relative;left:0;top:0;transform:none;--s:min(262px,68vw)}
-  .orb .mk{width:84px;margin:-13px 0 0 -42px}
-  .orb .tile{width:26px;height:25px}
-  .orb .tile svg{width:21px;height:21px}
-  .orb .ar{margin-top:3px;font-size:10px}
-  .orb .ti{font-size:8px}
-  .radar .me{width:34px;height:37px;margin:-19px 0 0 -17px}
-
-  .nav .wrap{height:60px}
-  [id]{scroll-margin-top:76px}
-  .brand{font-size:16px;gap:9px}
-  .brand svg{width:15px;height:17px}
-  .nav .links{gap:0}
-  .nav .links a:not(.btn){display:none}
-  .nav .btn{padding:9px 14px 10px}
-  .nav .btn b{font-size:14px}
-  .nav .btn .k{font-size:7px}
-
-  .btn{padding:11px 18px 12px}
-  .btn b{font-size:18px}
-  .btn.wide{width:100%;align-items:center;justify-content:center;min-height:52px}
-
-  .hero{padding:14px 0 0;text-align:center}
-  .hero-top{display:block}
-  .hero h1{font-size:29px;line-height:1.2}
-  .hero .aside{margin-top:16px;font-size:16px;line-height:1.45}
-  .hero-cta{margin-top:0;padding-bottom:44px}
-  .hero h1,.hero .aside,.hero .lede,.hero .fine{text-shadow:none}
-  .hero .lede{font-size:17px}
-  .stores{display:grid;grid-template-columns:1fr;justify-content:stretch;gap:12px;margin-top:22px}
-  .hero .fine{margin-top:22px;font-size:15px}
-
-  .sec{margin-bottom:16px}
-  .panel{padding:26px 22px 30px}
-  .p-head h2{font-size:24px;line-height:1.22}
-
-  .steps{grid-template-columns:1fr;gap:14px;margin-top:26px}
-  .step{padding:18px}
-  .step .glyph{width:38px;height:38px;margin-bottom:14px}
-  .step .glyph svg{width:21px;height:21px}
-  .step .n{font-size:9px}
-  .step h3{font-size:18px}
-  .step p{font-size:14px}
-
-  .shot-row{grid-template-columns:1fr;gap:34px;margin-top:22px}
-  .shot img,.phone{width:240px;height:488px}
-  .scaler{transform:scale(.6107)}
-  .shot .cap{margin-top:18px;text-align:center}
-  .shot .cap b{font-size:15px}
-  .shot .cap span{font-size:14px}
-
-  .banner{height:230px}
-  .banner .b-in{inset:0;width:auto;max-width:none;padding:24px 22px;justify-content:flex-end;
-    background:linear-gradient(180deg,rgba(21,12,9,0) 30%,rgba(21,12,9,.86) 100%)}
-  .banner h2{font-size:22px;line-height:1.24}
-  .banner .stores{margin-top:16px;grid-template-columns:1fr 1fr;gap:12px}
-  .banner .btn{padding:9px 12px 10px;align-items:center}
-  .banner .btn b{font-size:15px}
-
-  .coffee-in{grid-template-columns:1fr;gap:22px}
-  .coffee .kick{font-size:14px}
-  .coffee h2{font-size:24px;margin:8px 0 14px}
-  .coffee p{font-size:14px}
-
-  .story-in{grid-template-columns:1fr;gap:20px}
-  .story h2{font-size:24px}
-  .story .sig{margin-top:14px;font-size:13px}
-  .story-body p{font-size:15px;line-height:1.68}
-
-  .foot{padding:30px 0 44px;font-size:13px}
-  .foot .wrap{display:block}
-  .foot .ig{margin-top:18px;justify-content:center;width:100%;min-height:48px}
-  .foot .sp{margin:18px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .cta-follow .btn{width:100%;min-height:52px}
-  .foot .sp a{padding:6px 0}
-}
+.boot-win{width:min(360px,100%);border:4px solid var(--line);background:var(--win);box-shadow:10px 10px 0 var(--line2)}
+.boot-body{padding:26px 22px 24px;text-align:center}
+.boot-body img{width:56px;height:62px;margin:0 auto 16px;animation:hover 1400ms steps(3) infinite}
+.boot-body .lbl{font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.boot-track{margin-top:14px;height:18px;border:3px solid var(--line);background:var(--win2)}
+.boot-track i{display:block;height:100%;width:0;background:var(--post);animation:load 1400ms steps(10) forwards}
+@keyframes load{from{width:0}to{width:100%}}
+@keyframes bootout{to{opacity:0;visibility:hidden;pointer-events:none}}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *{animation-duration:1ms !important;animation-iteration-count:1 !important}
+  *,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+  .boot{display:none}
   .ping{opacity:0}
+  .js .reveal{opacity:1}
+}
+
+/* ---------- phones --------------------------------------------------------- */
+@media (max-width:760px){
+  /* the bar is sticky, so it stays one short row: brand plus the one action.
+     The links go — every section is a scroll away and the footer repeats them. */
+  .nav-links{display:none}
+  .nav-in{flex-wrap:nowrap;gap:12px;padding:10px 12px}
+  .brand{gap:9px;font-size:15px;min-width:0}
+  .brand svg{width:20px;height:22px;flex:none}
+  .nav-cta{margin-left:auto;flex:none;min-height:44px;padding:0 14px;font-size:13px;letter-spacing:.1em;box-shadow:4px 4px 0 #000}
+  .foot .note{margin-left:0;width:100%}
+  .win:hover{transform:none;box-shadow:6px 6px 0 var(--line2)}
+  .shots img{box-shadow:6px 6px 0 var(--bg)}
 }
 </style>
 </head>
 <body>
 
-<div class="bg-fixed" aria-hidden="true">
-  <img class="map" src="manhattan.jpg" alt="">
-  <div class="vign"></div>
+<div class="boot" aria-hidden="true">
+  <div class="boot-win">
+    <div class="bar"><b>Backpack of Songs</b><span class="dots"><i></i><i class="l"></i></span></div>
+    <div class="boot-body">
+      <img src="backpack.svg" alt="" width="56" height="62">
+      <div class="lbl">Loading the map</div>
+      <div class="boot-track"><i></i></div>
+    </div>
+  </div>
 </div>
 
 <nav class="nav">
   <div class="wrap">
-    <span class="brand"><svg viewBox="0 0 38 42"><use href="#bp-backpack"/></svg>Backpack of Songs</span>
-    <span class="links">
-      <a href="#how">How it works</a>
-      <a href="#app">The app</a>
-      <a href="#story">The story</a>
-      <a href="#coffee">Buy me a coffee</a>
-      <a class="btn" href="#get"><span class="k">Get the</span><b>App</b></a>
-    </span>
+    <div class="nav-in">
+      <span class="brand"><svg viewBox="0 0 38 42" aria-hidden="true"><use href="#bp-backpack"/></svg>Backpack of Songs</span>
+      <span class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#app">The app</a>
+        <a href="#about">The story</a>
+        <a href="#coffee">Coffee</a>
+      </span>
+      <a class="btn nav-cta" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811">Get it on iPhone</a>
+    </div>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="wrap hero-top">
-    <h1>Discover songs that made memories, all around the world.</h1>
-    <p class="aside">Travellers leave the song they were listening to at the exact place they were standing.</p>
-  </div>
-  <div class="radar-slot">
-    <div class="radar" role="img" aria-label="A pixel avatar at the centre of three sonar rings over a map of Manhattan, with nearby songs sitting on the rings.">
-      <div class="glow"></div>
-      <div class="ring a"></div><div class="ring b"></div><div class="ring c"></div>
-      <div class="ping"></div><div class="ping b"></div>
-      <span class="orb" style="--a:0deg;--r:.356"><span class="mk"><span class="drift" style="--dl:0ms"><span class="tile"><svg viewBox="0 0 25.63 25.63"><use href="#bp-disc"/></svg></span><span class="ar">Adele</span><span class="ti">Someone like you</span></span></span></span>
-      <span class="orb" style="--a:255deg;--r:.361"><span class="mk"><span class="drift" style="--dl:1700ms"><span class="tile"><svg viewBox="0 0 25.63 25.63"><use href="#bp-disc"/></svg></span><span class="ar">David Bowie</span><span class="ti">Like a rocket man</span></span></span></span>
-      <span class="orb" style="--a:117deg;--r:.211"><span class="mk"><span class="drift" style="--dl:3400ms"><span class="tile"><svg viewBox="0 0 25.63 25.63"><use href="#bp-disc"/></svg></span><span class="ar">Queen</span><span class="ti">Bohemian Rhapsody</span></span></span></span>
-      <div class="me"><img src="avatar.png" alt=""></div>
-    </div>
-  </div>
-  <div class="wrap hero-cta" id="get">
-    <p class="lede">Walk in, and pick up what they left behind.</p>
-    <div class="cta-follow">
-      <a class="btn" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><span class="k">Not out yet</span><b>Follow the build</b></a>
-    </div>
-    <div class="stores">
-      <a class="btn wide" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811"><span class="k">Download for</span><b>iPhone</b></a>
-      <a class="btn wide alt" data-store="android" href="#"><span class="k">Download for</span><b>Android</b></a>
-    </div>
-    <p class="fine">Free. And it stays free.<span id="storeNote"></span></p>
-  </div>
-</section>
+<main>
+  <section class="sec">
+    <div class="wrap row">
 
-<section class="sec" id="how">
-  <div class="wrap">
-    <div class="panel">
-      <div class="p-head">
-        <h2>The interface is the real world<br>Discover someone's song just by walking by</h2>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <span class="glyph"><svg viewBox="0 0 25.63 25.63"><use href="#bp-disc"/></svg></span>
-          <span class="n">Step 01</span>
-          <h3>See what others left</h3>
-          <p>Not a playlist — a memory. The song that marked a moment of their life, pinned where it happened. Each one sits on the ring closest to its true distance, pointing in its true direction.</p>
-        </div>
-        <div class="step">
-          <span class="glyph"><svg viewBox="0 0 8 11"><use href="#bp-pin"/></svg></span>
-          <span class="n">Step 02</span>
-          <h3>Leave your own</h3>
-          <p>Whoever passes by next will find it. Put a line with it if you want, or say nothing and stay anonymous. It lands on other people's maps about an hour later.</p>
-        </div>
-        <div class="step">
-          <span class="glyph"><svg viewBox="0 0 38 42"><use href="#bp-backpack"/></svg></span>
-          <span class="n">Step 03</span>
-          <h3>Keep the ones<br>that stay with you</h3>
-          <p>They go in your backpack, with the place and the person you got them from. That is the collection you go home with, and it counts the countries you passed through.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="app">
-  <div class="wrap">
-    <div class="panel">
-      <div class="shot-row">
-        <figure class="shot">
-          <img src="shot-radar.jpg" width="446" height="907" alt="The radar screen: a pixel avatar over a real map, with nearby songs as small discs.">
-          <figcaption class="cap"><b>The radar</b><span>Every song within 1.6 km, each one on the ring closest to how far away it really is, pointing the way you would have to walk.</span></figcaption>
-        </figure>
-        <figure class="shot">
-          <img src="shot-card.jpg" width="446" height="907" alt="An open song card: the track, the artist, who left it, the place, and a short note.">
-          <figcaption class="cap"><b>A song someone left</b><span>Who left it, the country they are from, the place, and the line they wrote with it. Tapping the cover opens the track in Spotify.</span></figcaption>
-        </figure>
-        <figure class="shot">
-          <div class="phone" role="img" aria-label="The backpack screen: countries visited, counters for shares, collected songs and likes, and the list of songs you saved.">
-            <div class="scaler">
-              <div class="m-head">
-                <svg class="bp" viewBox="0 0 38 42"><use href="#bp-backpack"/></svg>
-                <span class="t">My Backpack</span>
-                <span class="x"><b></b><b></b></span>
-              </div>
-              <div class="m-body">
-                <div class="m-banner"><span class="num">3</span><span class="lb">Countries Visited</span></div>
-                <div class="m-flags"><i>&#127477;&#127481;</i><i>&#127466;&#127480;</i><i>&#127474;&#127462;</i></div>
-                <div class="m-count">
-                  <div class="c-sh"><span class="ic"><svg viewBox="0 0 25.63 25.63"><use href="#bp-disc"/></svg></span><span class="v">7</span><span class="l">Shares</span></div>
-                  <div class="c-co"><span class="ic"><svg viewBox="0 0 38 42"><use href="#bp-backpack"/></svg></span><span class="v">24</span><span class="l">Collected</span></div>
-                  <div class="c-li"><span class="ic"><svg viewBox="0 0 14.05 12.43"><use href="#bp-heart"/></svg></span><span class="v">41</span><span class="l">Likes</span></div>
-                </div>
-                <div class="m-saved">Songs saved by you</div>
-                <div class="m-rows">
-                  <div class="m-row"><span class="vin"></span><span class="col"><span class="tt">Ferry at dusk</span><span class="ar">Coastal Lines</span>
-                    <span class="pl"><svg viewBox="0 0 8 11"><use href="#bp-pin"/></svg><span>Cais do Sodré</span><span class="dt">14/02/26</span></span></span></div>
-                  <div class="m-row"><span class="vin"></span><span class="col"><span class="tt">Long way round</span><span class="ar">Rue Vertigo</span>
-                    <span class="pl"><svg viewBox="0 0 8 11"><use href="#bp-pin"/></svg><span>Barrio Gótico</span><span class="dt">02/01/26</span></span></span></div>
-                  <div class="m-row"><span class="vin"></span><span class="col"><span class="tt">Tarde de agosto</span><span class="ar">Marisol Vega</span>
-                    <span class="pl"><svg viewBox="0 0 8 11"><use href="#bp-pin"/></svg><span>Malasaña</span><span class="dt">03/03/26</span></span></span></div>
-                </div>
-              </div>
-            </div>
+      <div class="win reveal" style="flex:1 1 560px;min-width:0">
+        <div class="bar"><b>Radar.exe</b><span class="dots"><i></i><i class="l"></i></span></div>
+        <div class="hero-map">
+          <img src="map-px.png" alt="A dithered pixel map of a city, the streets picked out in orange">
+          <div class="radar" role="img" aria-label="Three sonar rings around a pixel avatar, with nearby songs sitting on the rings.">
+            <img class="rings" src="rings.png" alt="">
+            <span class="ping"></span><span class="ping b"></span>
+            <span class="mk" style="left:50%;top:14%"><svg viewBox="0 0 25.63 25.63" aria-hidden="true"><use href="#bp-disc"/></svg></span>
+            <span class="mk" style="left:16%;top:60%"><svg viewBox="0 0 25.63 25.63" aria-hidden="true"><use href="#bp-disc"/></svg></span>
+            <span class="mk" style="left:69%;top:60%"><svg viewBox="0 0 25.63 25.63" aria-hidden="true"><use href="#bp-disc"/></svg></span>
+            <img class="me" src="avatar.png" alt="">
           </div>
-          <figcaption class="cap"><b>Your backpack</b><span>What you shared, what you collected, and the countries you have left a song in. It is the only score the app keeps.</span></figcaption>
-        </figure>
+        </div>
+        <div class="map-foot"><span>3 songs in range</span><span>40.7580&deg; N &middot; 73.9855&deg; W</span></div>
       </div>
-    </div>
-  </div>
-</section>
 
-<section class="sec">
-  <div class="wrap">
-    <div class="panel flush banner">
-      <img src="hero-scene.jpg" width="1400" height="591" alt="A traveller with a red backpack, headphones on, looking out over a city at sunset.">
-      <div class="b-in">
-        <h2>Discover the real world, and the songs that make it special.</h2>
-        <div class="stores">
-          <a class="btn follow" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener"><b>Follow the build</b></a>
-          <a class="btn" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811"><b>iPhone</b></a>
-          <a class="btn alt" data-store="android" href="#"><b>Android</b></a>
+      <div style="flex:1 1 380px;min-width:300px;display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px)">
+        <div class="win v-brown reveal">
+          <div class="bar"><b>Read-me.txt</b><span class="dots"><i></i><i class="l"></i></span></div>
+          <div class="pad">
+            <h1 class="hero-h1">Songs are hidden all over the <em>real world</em><span class="cur"></span></h1>
+            <p class="lede">Travellers leave the song they were listening to at the exact place they were standing. Walk close enough and it appears.</p>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="sec" id="story">
-  <div class="wrap">
-    <div class="panel story">
-      <div class="story-in">
-        <div>
-          <p class="kick">Why this exists</p>
-          <h2>Places get stuck<br>to songs</h2>
-          <p class="sig">— Leo, solo developer and designer</p>
-        </div>
-        <div class="story-body">
-          <p>There is a strange thing I noticed after years of travelling: a place can get stuck to a song I would never listen to anywhere else. It is not that I like the song. It is what it carries.</p>
-          <p>One of them is not really my style, but every time it plays I am back with a street musician in Lisbon on some ordinary night. Another puts me straight on a beach volleyball court, sun overhead, nobody paying attention to anything but the ball.</p>
-          <p>I started wondering whether other people have this too — a song that marks a specific place, not because of the lyrics or the artist, but because of the moment. And what it would look like on a map. <em>Not a travel playlist. The exact place someone was standing when a song became a memory.</em></p>
-          <p>Making an app has started to feel too serious lately — conversion funnels, scaling, AI bolted onto everything. This was my way of getting the fun part back: building something just to build it, no business plan, no metric to optimise. Just using the tech I already know to make walking around a little more special.</p>
+        <div class="win v-coffee reveal">
+          <div class="bar"><b>Download.exe</b><span class="dots"><i class="l"></i></span></div>
+          <div class="pad">
+            <div class="kick">Out now</div>
+            <a class="btn block" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811" style="margin-top:14px">Get it on iPhone</a>
+            <a class="btn block is-soon" data-store="android" href="#" style="margin-top:10px">Download for Android</a>
+            <p class="fine">Free. And it stays free.<span id="storeNote"></span></p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="sec" id="coffee">
-  <div class="wrap">
-    <div class="panel coffee">
-      <div class="coffee-in">
-        <div>
-          <p class="kick">Support the creator</p>
-          <h2>Buy me a coffee</h2>
-          <p>The app is free and it stays free. No ads, no subscription, no paid features, and nothing at all behind this — not a badge, not an extra, not a thank-you screen.</p>
-          <p>There is no way to pay from inside the app, and nothing in it links here. This page is the only place it exists.</p>
-        </div>
-        <a class="bmc" href="https://www.buymeacoffee.com/backpackofsongs" target="_blank" rel="noopener"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&#9749;&amp;slug=backpackofsongs&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Lato&amp;outline_colour=000000&amp;coffee_colour=ffffff" alt="Buy me a coffee" width="235" height="50"></a>
-      </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-in">
+      <span>Out now on iPhone</span><span><b>&middot;</b></span><span>1.6 km radius</span><span><b>&middot;</b></span><span>One hour delay</span><span><b>&middot;</b></span><span>No name stored</span><span><b>&middot;</b></span><span>No feed</span><span><b>&middot;</b></span><span>No followers</span><span><b>&middot;</b></span><span>No algorithm</span><span><b>&middot;</b></span><span>Free, and it stays free</span><span><b>&middot;</b></span>
+      <span>Out now on iPhone</span><span><b>&middot;</b></span><span>1.6 km radius</span><span><b>&middot;</b></span><span>One hour delay</span><span><b>&middot;</b></span><span>No name stored</span><span><b>&middot;</b></span><span>No feed</span><span><b>&middot;</b></span><span>No followers</span><span><b>&middot;</b></span><span>No algorithm</span><span><b>&middot;</b></span><span>Free, and it stays free</span><span><b>&middot;</b></span>
     </div>
   </div>
-</section>
+
+  <section class="sec" id="how">
+    <div class="wrap">
+      <div class="win reveal">
+        <div class="bar"><b>How-it-works.txt</b><span class="dots"><i></i><i class="l"></i></span></div>
+        <div class="pad row" style="gap:clamp(16px,2vw,24px)">
+          <div class="step">
+            <div class="step-top"><span class="step-n">01</span><svg viewBox="0 0 25.63 25.63" aria-hidden="true"><use href="#bp-disc"/></svg></div>
+            <h3>See what others left</h3>
+            <p>Not a playlist — a memory, pinned where it happened, on the ring closest to its true distance.</p>
+          </div>
+          <div class="step">
+            <div class="step-top"><span class="step-n">02</span><svg viewBox="0 0 8 11" aria-hidden="true"><use href="#bp-pin"/></svg></div>
+            <h3>Leave your own</h3>
+            <p>Say something with it, or stay anonymous. It lands on other maps about an hour later.</p>
+          </div>
+          <div class="step">
+            <div class="step-top"><span class="step-n">03</span><svg viewBox="0 0 38 42" aria-hidden="true"><use href="#bp-backpack"/></svg></div>
+            <h3>Keep the ones that stay</h3>
+            <p>They go in your backpack, with the place and the person you got them from.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap row">
+      <div class="win reveal" style="flex:1 1 560px;min-width:0">
+        <div class="bar"><b>Who-left-these.log</b><span class="dots"><i></i><i class="l"></i></span></div>
+        <div class="pad" style="padding-top:8px;padding-bottom:16px">
+          <div class="log-row">
+            <img src="avatar-03.svg" alt="" width="46" height="46">
+            <span class="t"><b>Someone like you</b><span>Adele &middot; Grand Street, New York</span></span>
+            <span class="d">0.4 km</span>
+          </div>
+          <div class="log-row">
+            <img src="avatar-11.svg" alt="" width="46" height="46">
+            <span class="t"><b>Like a rocket man</b><span>David Bowie &middot; Barri G&ograve;tic, Barcelona</span></span>
+            <span class="d">1.1 km</span>
+          </div>
+          <div class="log-row">
+            <img src="avatar-22.svg" alt="" width="46" height="46">
+            <span class="t"><b>Bohemian Rhapsody</b><span>Queen &middot; Cais do Sodr&eacute;, Lisboa</span></span>
+            <span class="d">0.9 km</span>
+          </div>
+          <div class="log-row">
+            <span class="q" aria-hidden="true">?</span>
+            <span class="t"><b>Left anonymously</b><span>No name stored &middot; Malasa&ntilde;a, Madrid</span></span>
+            <span class="d">1.4 km</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="win v-brown reveal" style="flex:1 1 360px;min-width:280px">
+        <div class="bar"><b>Pick-a-face.exe</b><span class="dots"><i class="l"></i></span></div>
+        <div class="pad">
+          <p style="font-size:15px;line-height:1.55;margin-bottom:16px">Fifty-eight drawn faces to choose from. It is an illustration, never a photograph — and you can leave a song without showing any of them.</p>
+          <div class="faces">
+            <img src="avatar-03.svg" alt="" width="62" height="62">
+            <img src="avatar-11.svg" alt="" width="62" height="62">
+            <img src="avatar-22.svg" alt="" width="62" height="62">
+            <img src="avatar-34.svg" alt="" width="62" height="62">
+            <img src="avatar-47.svg" alt="" width="62" height="62">
+            <span class="more">+53</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="app">
+    <div class="wrap">
+      <div class="sec-head"><h2>Open the app</h2><span>Real screens, real pixels</span></div>
+      <div class="row">
+        <div class="win v-note ui-win reveal">
+          <div class="bar"><b>Where-you-are</b><span class="dots"><i class="l"></i></span></div>
+          <img src="ui-topbar.png" alt="The app's top bar: the backpack button, the street you are on, and your avatar">
+          <p>The street you are standing on, and the face you chose. Tap the backpack to see what you are carrying.</p>
+        </div>
+        <div class="win v-note ui-win reveal">
+          <div class="bar"><b>Songs-nearby</b><span class="dots"><i class="l"></i></span></div>
+          <img src="ui-markers.png" alt="Song markers sitting on the radar rings, each a disc with the artist and title under it">
+          <p>Each disc sits on the ring closest to its true distance, in its true direction. You walk towards it.</p>
+        </div>
+        <div class="win v-note ui-win reveal">
+          <div class="bar"><b>What-they-left</b><span class="dots"><i class="l"></i></span></div>
+          <img src="ui-card.png" alt="An open song card: cover, artist, who left it, the place, and the line they wrote with it">
+          <p>Who left it, where, and the line they wrote with it. The cover opens the track in Spotify.</p>
+        </div>
+        <div class="win v-note ui-win reveal">
+          <div class="bar"><b>Three-buttons</b><span class="dots"><i class="l"></i></span></div>
+          <img src="ui-nav.png" alt="The whole navigation: home, leave a song, and the nearby list">
+          <p>That is the entire navigation. Home, leave a song, and the list of what is around you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap row">
+      <div class="win v-brown reveal" style="flex:1 1 620px;min-width:0">
+        <div class="bar"><b>Postcard.png</b><span class="dots"><i></i><i class="l"></i></span></div>
+        <img src="hero-scene.jpg" alt="A traveller with a red backpack, headphones on, looking out over a city at sunset" style="border-bottom:4px solid #5A3A22">
+        <div class="cap">Somewhere you have been &middot; a song you did not choose</div>
+      </div>
+
+      <div class="win v-blue reveal" style="flex:1 1 320px;min-width:280px">
+        <div class="bar"><b>Backpack.dat</b><span class="dots"><i class="l"></i></span></div>
+        <div class="pad">
+          <div class="count c-sh"><span>Shares</span><b>7</b></div>
+          <div class="count c-co"><span>Collected</span><b>24</b></div>
+          <div class="count c-li"><span>Liked</span><b>41</b></div>
+          <div class="count c-cn"><span>Countries</span><b>3</b></div>
+          <p style="margin-top:16px;font-size:14px;line-height:1.55">No feed, no followers, no algorithm. The only score the app keeps is how many countries you left a song in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="wrap row">
+      <div class="win v-tile reveal" style="flex:1 1 560px;min-width:0;order:1">
+        <div class="bar"><b>Screens.png</b><span class="dots"><i class="l"></i></span></div>
+        <div class="shots">
+          <img src="shot-radar.jpg" width="446" height="907" alt="The radar screen on a phone">
+          <img src="shot-card.jpg" width="446" height="907" alt="An open song card on a phone">
+        </div>
+      </div>
+
+      <div style="flex:1 1 400px;min-width:300px;order:2;display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px)">
+        <div class="win reveal">
+          <div class="bar"><b>About-me.txt</b><span class="dots"><i></i><i class="l"></i></span></div>
+          <div class="pad story">
+            <div class="who">
+              <img src="avatar-58.svg" alt="" width="56" height="56">
+              <span><b>L&eacute;o Muller</b><span>Solo developer and designer</span></span>
+            </div>
+            <p>I design products, and this one is mine end to end — the pixel art, the app, the rules that keep it anonymous, and this page.</p>
+            <p>It came from something I noticed travelling: a place can get stuck to a song you would never choose. Making an app has started to feel too serious, and this one has none of that.</p>
+            <p class="pull">Not a travel playlist. The exact place someone was standing when a song became a memory.</p>
+            <a class="btn ghost block" href="https://www.linkedin.com/in/leormuller" target="_blank" rel="noopener" style="margin-top:18px">L&eacute;o on LinkedIn</a>
+          </div>
+        </div>
+
+        <div class="win v-coffee reveal" id="coffee" style="background:var(--coffee-bg)">
+          <div class="bar"><b>Coffee.exe</b><span class="dots"><i></i></span></div>
+          <div class="pad coffee-body">
+            <div class="kick" style="color:var(--coffee)">Support the creator</div>
+            <h3>Buy me a coffee</h3>
+            <p>The app is free and it stays free. Nothing at all behind this — not a badge, not an extra, not a thank-you screen. There is no way to pay from inside the app, and nothing in it links here.</p>
+            <a class="bmc" href="https://www.buymeacoffee.com/backpackofsongs" target="_blank" rel="noopener"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&#9749;&amp;slug=backpackofsongs&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Lato&amp;outline_colour=000000&amp;coffee_colour=ffffff" alt="Buy me a coffee" width="235" height="50"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="go reveal">
+        <img src="backpack.svg" alt="" width="104" height="115">
+        <h2>Go outside</h2>
+        <p>The next song is wherever you are standing. Free, and it stays free.</p>
+        <a class="btn" data-store="ios" href="https://apps.apple.com/app/backpack-of-songs/id6808656811">Download for iPhone</a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer class="foot">
   <div class="wrap">
-    <span class="brand"><svg viewBox="0 0 38 42"><use href="#bp-backpack"/></svg>Backpack of Songs</span>
-    <a class="ig" href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 18 18"><use href="#bp-ig"/></svg>@bpofsongs
-    </a>
-    <span class="sp">
-      <a href="press.html">Press kit</a>
-      <a href="terms.html">Terms of use</a>
-      <a href="privacy.html">Privacy policy</a>
-      <a href="guidelines.html">Community guidelines</a>
-      <a href="delete-account.html">Delete account</a>
-    </span>
+    <span class="brand"><svg viewBox="0 0 38 42" aria-hidden="true"><use href="#bp-backpack"/></svg>Backpack of Songs &middot; 2026</span>
+    <a href="https://www.instagram.com/bpofsongs/" target="_blank" rel="noopener">@bpofsongs</a>
+    <a href="https://www.linkedin.com/in/leormuller" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="press.html">Press kit</a>
+    <a class="q" href="terms.html">Terms</a>
+    <a class="q" href="privacy.html">Privacy</a>
+    <a class="q" href="guidelines.html">Guidelines</a>
+    <a class="q" href="delete-account.html">Delete account</a>
+    <span class="note">Map imagery &copy; OpenStreetMap contributors and CARTO</span>
   </div>
 </footer>
 
@@ -609,60 +569,76 @@ p,figure,figcaption,ul,li{margin:0}
 (function () {
   'use strict';
 
+  document.documentElement.className += ' js';
+
   /* The App Store listing went live 2026-10-08. Android has none yet, and the
      empty string is what keeps that button honest — fill it the day it does. */
   var STORE = {
     ios: 'https://apps.apple.com/app/backpack-of-songs/id6808656811',
     android: ''
   };
-
-  /* Until the listings exist the buttons have nowhere to go, so they hand the
-     visitor the one place that is actually live. */
   var INSTAGRAM = 'https://www.instagram.com/bpofsongs/';
-
   var note = document.getElementById('storeNote');
-
-  /* One listing is enough to end the prelaunch state: the page stops leading
-     with the account and puts the download buttons back in front. Each button
-     then decides for itself, so a store that is still missing wears the muted
-     "Soon on" treatment instead of holding the whole page back. */
-  var LAUNCHED = !!(STORE.ios || STORE.android);
-  document.body.classList.toggle('prelaunch', !LAUNCHED);
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-store]'), function (a) {
     var url = STORE[a.getAttribute('data-store')];
     if (url) {
-      /* The markup already carries a live listing's address, so the button
-         works with the script dead. This keeps the two in step. */
       a.href = url;
       a.rel = 'noopener';
       return;
     }
     a.classList.add('is-soon');
-    var kicker = a.querySelector('.k');
-    if (kicker) kicker.textContent = 'Soon on';
     a.addEventListener('click', function (e) {
       e.preventDefault();
-      note.innerHTML = (LAUNCHED
-        ? 'Android is still on the way — follow <a href="' + INSTAGRAM +
-          '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it lands.'
-        : 'Not on the stores yet — follow <a href="' + INSTAGRAM +
-          '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it is.');
+      note.innerHTML = 'Android is still on the way — follow <a href="' + INSTAGRAM +
+        '" target="_blank" rel="noopener">@bpofsongs</a> and you will know when it lands.';
     });
   });
 
-  /* The navbar is bare over the hero and grows a bar once the page moves. */
-  var nav = document.querySelector('.nav');
-  var stuck = false;
-  function onScroll() {
-    var now = window.pageYOffset > 8;
-    if (now !== stuck) {
-      stuck = now;
-      nav.classList.toggle('is-stuck', now);
+  /* Windows arrive as they are scrolled to.
+     This measures positions rather than using IntersectionObserver: the
+     observer does not fire in every environment, and the failure mode there
+     is a blank page, since .reveal starts at opacity 0. A plain rect check
+     always runs, and a timer reveals anything left over no matter what. */
+  var wins = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  function showAll() {
+    wins.forEach(function (w) { w.classList.add('in'); });
+    wins.length = 0;
+  }
+  function showVisible() {
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    for (var i = wins.length - 1; i >= 0; i--) {
+      var r = wins[i].getBoundingClientRect();
+      /* anything that has reached the fold, including what a jump to an
+         anchor has already carried past the top of the screen */
+      if (r.top < vh * 0.94) {
+        wins[i].classList.add('in');
+        wins.splice(i, 1);
+      }
     }
   }
-  onScroll();
+
+  var queued = false;
+  function onScroll() {
+    if (queued) return;
+    queued = true;
+    window.requestAnimationFrame(function () { queued = false; showVisible(); });
+  }
+
+  showVisible();
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', showVisible);
+  window.setTimeout(showAll, 4000);
+
+  /* The boot screen hides itself with a CSS animation, so it cannot strand
+     anyone if this script never runs. This only takes it out of the tree. */
+  var boot = document.querySelector('.boot');
+  if (boot) {
+    window.setTimeout(function () {
+      if (boot.parentNode) boot.parentNode.removeChild(boot);
+    }, 2200);
+  }
 })();
 </script>
 </body>
